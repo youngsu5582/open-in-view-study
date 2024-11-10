@@ -1,6 +1,5 @@
 package joyson.openinviewtest.util;
 
-import org.springframework.orm.jpa.EntityManagerHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -28,7 +27,8 @@ public class TransactionUtil {
     public static void checkTransactional(final Class<?> clazz) {
         for (final Method method : clazz.getDeclaredMethods()) {
             System.out.println(method.getName());
-            Arrays.stream(method.getAnnotations()).forEach(System.out::println);
+            Arrays.stream(method.getAnnotations())
+                    .forEach(System.out::println);
             if (method.isAnnotationPresent(Transactional.class)) {
                 final Transactional transactional = method.getAnnotation(Transactional.class);
                 System.out.println("메소드: " + method.getName());
