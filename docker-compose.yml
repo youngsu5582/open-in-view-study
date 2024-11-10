@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  mysql-writer:
+    image: mysql:8.0
+    container_name: mysql_writer
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: writeDB
+      MYSQL_USER: open-in-view-user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_writer_data:/var/lib/mysql
+    command:
+      - --default-authentication-plugin=mysql_native_password
+
+  mysql-reader:
+    image: mysql:8.0
+    container_name: mysql_reader
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: readDB
+      MYSQL_USER: open-in-view-user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3307:3306"
+    depends_on:
+      - mysql-writer
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_reader_data:/var/lib/mysql
+    command:
+      - --read-only=1  # 읽기 전용 설정
+      - --default-authentication-plugin=mysql_native_password
+
+volumes:
+  mysql_writer_data:
+  mysql_reader_data:

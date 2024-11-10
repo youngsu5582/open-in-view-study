@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: open-in-view-test
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: true
+    properties:
+      hibernate:
+        format_sql: true
+        generate_statistics: true
+    show-sql: true
+  datasource:
+    write:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost:3306/writeDB  # Writer DB? ??
+      username: open-in-view-user
+      password: password
+    read:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost:3307/readDB  # Reader DB? ??
+      username: open-in-view-user
+      password: password
+
+#  logging:
+#    level:
+#      org:
+#        hibernate:
+#          stat: WARN
+#          SQL: WARN
+#          type.descriptor.sql.BasicBinder: WARN
+
